@@ -17,11 +17,10 @@ library(tidyverse)
 ```{r}
 starwars_data <- tibble(starwars)
 ```
-AW comment: is there a reason you chose tibble and saved it as starwars_data?? it works, but it looks like you use starwars later on 
 
 3. Create a subset of data that contains only the humans from the starwars franchise.
 ```{r}
-humans <- starwars %>% filter(species == "Human")
+humans <- starwars_data %>% filter(species == "Human")
 ```
 
 4. In this subset of data, who is the tallest character? 
@@ -29,7 +28,11 @@ humans <- starwars %>% filter(species == "Human")
 humans %>% 
   filter(height == max(height, na.rm = TRUE))
 ```
-aw comment: this works. if you wanted just the name, could then select the name column
+```{r}
+humans %>% 
+  filter(height == max(height, na.rm = TRUE)) %>% 
+  select(name)
+```
 
 5. In this subset of data, print the information about the character in the third row. 
 ```{r}
@@ -43,7 +46,11 @@ starwars_data %>%
   pull(mass) %>% 
   mean(na.rm = TRUE)
 ```
-aw comment: pull works, mutate would be another approach. noting that you flip between starwars and starwars_data
+```{r}
+starwars_data %>% 
+  filter(gender == "masculine") %>% 
+  mutate(avg_mass = mean(mass, na.rm = TRUE))
+```
 
 7. Create a dataset that contains only the characters and the films that they appeared in from the full dataset. 
 ```{r}
@@ -58,10 +65,11 @@ starwars_data$ranking <- 1:87
 
 9. Create a subset of data for the characters from Naboo. How many characters are from Naboo? 
 ```{r}
-naboo <- starwars_data %>% 
-  filter(homeworld == "Naboo")
+starwars_data %>% 
+  filter(homeworld == "Naboo") %>% 
+  nrow()
+#11
 ```
-aw comment: how many?
 
 10. How many droids are in the full dataset? 
 ```{r}
