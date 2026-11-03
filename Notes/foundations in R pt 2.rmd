@@ -146,7 +146,7 @@ penguins$body_mass_2 <- as.factor(penguins$body_mass_g)
 penguins$body_mass_2 <- as.numeric(penguins$body_mass_2)
 
 penguins$body_mass_3 <- as.factor(penguins$body_mass_g)
-penguins$body_mass_3 <- as.numeric(levels(penguins$body_mass_3)[penguins$body_mass_3])
+penguins$body_mass_3 <- as.numeric(levels(penguins$body_mass_3)[penguins$body_mass_3]) #use this
 penguins %>%select(body_mass_g, body_mass_3)
 
 levels(penguins$species)
@@ -287,11 +287,13 @@ Let's say we wanted to create a column in the chickweight dataset that indicated
 
 We'd have to make a new column
 ```{r}
-
+ChickWeight$weight_range <- NA
+colnames(ChickWeight) <- tolower(colnames(ChickWeight))
 ```
 and then fill in that new column by indexing the days column, which has 12 different days. 
 ```{r}
-
+ChickWeight$weight_range[ChickWeight$chick==1] <-
+  range(ChickWeight$weight[ChickWeight$chick==1])[2] - range(ChickWeight$weight[ChickWeight$chick==1])[1]
 ```
 
 We could use a **for loop** though to go through each row of the data set and fill out the new column (beginning or end) based on the days in the Time column.
@@ -310,19 +312,60 @@ think we want to do
 }
 
 ```{r}
+# amandas version
+for (i in 1:(levels(ChickWeight$chick))) {
+  weight_range[i] <- range()
+}
+```
 
+```{r}
+# rohans version
+ChickWeight$min_weight <- NA
+ChickWeight$max_weight <- NA
+
+chick_ids <- unique(ChickWeight$chick)
+
+for (i in seq_along(chick_ids)) {
+  
+}
+```
+
+in class for loop example
+```{r}
+for (i in 1:nrow(num_dat)) {
+  print(i + 3)
+}
+
+# save to dataset
+num_dat$plus_three <- NA
+
+for (i in 1:nrow(num_dat)) {
+  num_dat$plus_three[i] <- num_dat$number[i] + 3
+}
 ```
 
 ### Practice for Learning Outcome 4: 
 
 1. Create a for loop that will multiply each number in a vector by 4. Test it with a vector containing the numbers 10:100. 
 ```{r}
+num_dat$multiply_4 <- NA
 
+for (i in 1:nrow(num_dat)) {
+  num_dat$multiply_4[i] <- num_dat$number[i] * 4
+}
 ```
 
 2. Create a new column in the mtcars data set that indicated whether a car has good mileage (over 25 mpg) or bad mileage (25 mpg or fewer).  
 ```{r}
+mtcars$good_mpg <- NA
 
+for (i in 1:nrow(mtcars)) {
+  if (mtcars$mpg[i] > 25){
+    mtcars$good_mpg[i] <- "yes"
+  } else {
+    mtcars$good_mpg[i] <- "no"
+  }
+}
 ```
 
 ## Learning Outcome 5: Create your own if statements and ifelse statments
