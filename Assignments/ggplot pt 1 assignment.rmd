@@ -5,19 +5,73 @@ date: "2026-10-29"
 output: html_document
 ---
 1. open the starwars dataset in tidyverse
+```{r}
+library(tidyverse)
+data(starwars)
+```
 
 2. create a graph showing the frequency of eye colors in the dataset. 
+```{r}
+ggplot(starwars, aes(x = eye_color)) + geom_bar()
+```
 
 3. Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc. 
+```{r}
+unique(starwars$eye_color)
+
+eye_color_fill <- c(
+  "blue" = "#1569C7", 
+  "yellow" = "#FFFF00",        
+  "red" = "#D94218",           
+  "brown" = "#A35E35",         
+  "blue-gray" = "#6A89A7",     
+  "black" = "#000000",         
+  "orange" = "orange",
+  "hazel" =  "#8E7618",       
+  "pink" = "#F4C0D0",        
+  "unknown" = "gray",       
+  "red, blue" = "#9E1B1B",     
+  "gold" = "#E6B51E",         
+  "green, yellow" = "#ADFF2F", 
+  "white" = "#F8F5FA", 
+  "dark" = "#9e6b4a"
+)
+
+ggplot(starwars, aes(y = eye_color, fill = eye_color)) + 
+  geom_bar() + 
+  theme_apa(remove.x.gridlines = FALSE, legend.pos = "none") + 
+  labs(y = "Eye Color", x = "Frequency") +
+  scale_fill_manual(values = eye_color_fill) 
+```
+I tried to match the bar color to the eye color by looking up hex codes for characters. I used unique() to get all the possible eye colors, then put them in a vector before assigning hex codes.
 
 4. Create a graph displaying information about character's height in each homeworld. 
+```{r}
+
+```
 
 5. Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
+```{r}
+
+```
 
 6. Create a graph of character's height by mass. 
+```{r}
+
+```
 
 7.Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
+```{r}
+
+```
 
 8. Add gender as a third variable to your graph of height by mass. 
+```{r}
+
+```
 
 9. Customize your graph to make it more presentable. Consider color, backgrounds, axes, etc.
+```{r}
+
+```
+
