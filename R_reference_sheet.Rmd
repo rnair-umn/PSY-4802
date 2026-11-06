@@ -1,5 +1,40 @@
 ---
-title: "r-reference-sheet"
-output: html_document
+title: "R Reference Sheet"
+output: pdf_document
 ---
+# Setup and Help
 
+
+
+# Vectors and Data Types
+
+
+
+# Programming Tools
+
+
+
+# Dataframes
+
+
+
+# Importing and Exporting
+
+
+
+# Cleaning
+
+
+
+# Manipulating and Summarizing
+
+
+
+# Statistics
+### Descriptive
+
+### Inferential
+
+
+
+# Visualization
