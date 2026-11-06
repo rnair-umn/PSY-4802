@@ -1,0 +1,27 @@
+---
+title: "cleaning"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(readxl)
+full_data <- read_excel("/Users/rohannair/Projects/PSY 4802/Final/OASIS_2.xlsx")
+```
+
+```{r}
+colnames(full_data)[1] <- "subject_id"
+colnames(full_data)[2] <- "mri_id"
+colnames(full_data)[11] <- "mini_mental"
+colnames(full_data)[13] <- "skull_volume"
+colnames(full_data)[14] <- "brain_volume"
+```
+
+```{r}
+max(full_data$nWBV)
+min(full_data$nWBV)
+```
+
+```{r}
+
+```
+
