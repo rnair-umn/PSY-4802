@@ -1,0 +1,92 @@
+---
+title: "Quiz 2"
+author: "Amanda Mae Woodward"
+date: "2026-11-03"
+output: html_document
+---
+
+
+This quiz will focus on data frame manipulation, however, you may need to rely on skills you've learned in prior weeks. 
+
+1. load the starwars dataset from tidyverse
+```{r}
+library(tidyverse)
+data(starwars)
+```
+
+
+2. separate the films column so that there is one film in each column (don't worry about the "c(" and ) at the end for now)
+```{r}
+typeof(starwars$films)
+max(lengths(starwars$films))
+
+starwars_wide <- starwars %>% 
+  mutate(films = as.character(films)) %>% 
+  separate(films,
+           into = c("film1", "film2", "film3", "film4", "film5", "film6", "film7"),
+           sep = ",",
+           fill = "right"
+           )
+```
+I used typeof() to see what the data was stored as, it returned 'list'. I used max(lengths(starwars$films)) to find out the max number of films for an individual character so I knew how many elements needed to go in 'into'. I initially tried length() which apparently returns the total for a single object. as.character() turns each list into a string which can then be used in separate().  
+
+3. alter the data from wide data to long data
+```{r}
+starwars_long <- starwars_wide %>% 
+  pivot_longer(cols = starts_with("film"),
+               names_to = "film_number",
+               values_to = "film",
+               values_drop_na = TRUE)
+```
+I just used pivot_longer(), similar to what we have done in class and in the previous data manipulation assignment.
+
+4. in the column where you stored the films, rename the levels so each film name is consistent (e.g. get rid of the "c(" and ")" )
+```{r}
+unique(starwars_long$film)
+
+starwars_long <- starwars_long %>% 
+  mutate(film = recode(film,
+        "c(\"A New Hope\"" = "A New Hope",
+        " \"The Empire Strikes Back\"" = "The Empire Strikes Back",
+        " \"Return of the Jedi\"" = "Return of the Jedi",
+        " \"Revenge of the Sith\"" = "Revenge of the Sith",
+        " \"The Force Awakens\")" = "The Force Awakens",
+        " \"The Phantom Menace\"" = "The Phantom Menace",
+        " \"Attack of the Clones\"" = "Attack of the Clones",
+        " \"Revenge of the Sith\")" = "Revenge of the Sith",
+        "c(\"The Phantom Menace\"" = "The Phantom Menace",
+        " \"The Phantom Menace\")" = "The Phantom Menace",
+        " \"Return of the Jedi\")" = "Return of the Jedi",
+        "c(\"The Empire Strikes Back\"" = "The Empire Strikes Back",
+        " \"Attack of the Clones\")" = "Attack of the Clones",
+        "The Empire Strikes Back" = "The Empire Strikes Back",
+        "c(\"Return of the Jedi\"" = "Return of the Jedi",
+        "c(\"Attack of the Clones\"" = "Attack of the Clones"),
+        film = factor(film))
+
+class(starwars_long$film)
+```
+I used unique() to get all of the possible film names, then I used recode() within mutate() to rename each in the dataset and then convert to factor.
+
+5. Create a column in your dataset that indicates whether a character was in the first starwars film, *Star Wars Episode IV: A New Hope* 
+```{r}
+starwars_long <- starwars_long %>%
+  group_by(name) %>%
+  mutate(in_new_hope = any(film == "A New Hope")) %>%
+  ungroup()
+```
+group_by(name) allows me to group the characters, since the data is long, characters appear more than once in the dataset. Then I used a logical statement to return TRUE or FALSE. Finally, I used ungroup() to prevent the code from being affected later.
+
+6. BMI is calculated as mass in Kg/height in meters squared. You currently have mass in Kg and height in cm. Create a column that contains each character's BMI. 
+```{r}
+starwars_long <- starwars_long %>% 
+  mutate(bmi = mass / (height / 100)^2)
+```
+
+
+7. create a dataframe that contains only the name, hair color, and eye color for each character. 
+```{r}
+starwars_mini <- starwars %>% 
+  select(name, hair_color, eye_color)
+```
+
